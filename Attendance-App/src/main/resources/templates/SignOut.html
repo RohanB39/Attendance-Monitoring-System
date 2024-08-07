@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Home Page</title>
+<style>
+@import
+	url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+	;
+
+body {
+	font-family: 'Poppins', sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	color: #fff;
+	margin: 0;
+}
+
+.Main-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 50vh;
+	width: 30vw;
+	border-radius: 10px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+#date-time {
+	font-size: 24px;
+	margin-bottom: 20px;
+	animation: fadeIn 0.40s ease-in-out;
+	color: black;
+	font-family: 'Poppins', sans-serif;
+	margin-bottom: 20px;
+}
+
+@keyframes fadeIn {from { opacity:0;
+	transform: translateY(-20px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+.button {
+	font-size: 16px;
+	padding: 15px 30px;
+	background: #ff7e5f;
+	background: linear-gradient(to right, #ff7e5f, #feb47b);
+	color: white;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	transition: all 0.3s ease-in-out;
+	position: relative;
+	overflow: hidden;
+	width: 200%;
+}
+
+.button:hover {
+	background: linear-gradient(to right, #feb47b, #ff7e5f);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.button-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 60%;
+	margin-left: -15%;
+	margin-top: 20px;
+}
+
+.button-container form {
+	width: 30%;
+	margin: 0 -10px;
+}
+</style>
+</head>
+<body>
+	<div class="Main-container">
+		<div id="date-time"></div>
+		<div class="button-container">
+			<form action="/signOut" method="post">
+				<input type="hidden" name="username" th:value="${username}">
+				<button type="submit" class="button">Sign Out</button>
+			</form>
+			<form action="/userAttendanceReport">
+				<input type="hidden" name="username" th:value="${username}">
+				<button type="submit" class="button">View Report</button>
+			</form>
+		</div>
+	</div>
+	<script>
+		function updateDateTime() {
+			const now = new Date();
+			const date = now.toLocaleDateString();
+			const time = now.toLocaleTimeString();
+			document.getElementById('date-time').innerHTML = `Current Date: ${date} <br> Current Time: ${time}`;
+		}
+		// Update the date and time every second
+		setInterval(updateDateTime, 1000);
+		// Initial call to display the date and time immediately
+		updateDateTime();
+
+		document.getElementById('viewReportButton').addEventListener('click',
+				function() {
+					window.location.href = '/attendanceReport';
+				});
+	</script>
+</body>
+</html>

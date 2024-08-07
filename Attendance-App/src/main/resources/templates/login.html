@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style type="text/css">
+@import
+	url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+	;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body, html {
+	height: 100%;
+	font-family: 'Poppins', sans-serif;
+	background: #e0e0e0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.login-box {
+	background: #fff;
+	padding: 60px;
+	border-radius: 12px;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	max-width: 400px;
+	width: 100%;
+	text-align: center;
+	animation: slideIn 0.6s ease-out;
+}
+
+h1 {
+	margin-bottom: 20px;
+	color: #333;
+	font-size: 24px;
+	letter-spacing: 10px;
+}
+
+.input-group {
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.input-group input {
+	width: 100%;
+	padding: 15px;
+	border: 2px solid #ccc;
+	border-radius: 8px;
+	font-size: 16px;
+	background: transparent;
+	transition: border-color 0.3s, box-shadow 0.3s;
+	outline: none;
+}
+
+.input-group input:focus {
+	border-color: #007bff;
+	box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.input-group label {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	font-size: 16px;
+	color: #aaa;
+	pointer-events: none;
+	transition: all 0.3s ease;
+}
+
+.input-group input:focus+label, .input-group input:not(:placeholder-shown)+label
+	{
+	top: -10px;
+	left: 10px;
+	font-size: 12px;
+	color: #007bff;
+	background: #fff;
+	padding: 0 5px;
+}
+
+.button-group {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.btn {
+	width: 100%;
+	padding: 12px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 16px;
+	color: #fff;
+	position: relative;
+	overflow: hidden;
+	transition: transform 0.2s;
+	z-index: 1;
+}
+
+.btn::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to right, #007bff, #0056b3);
+	transition: left 0.4s;
+	z-index: -1;
+}
+
+.btn:hover::before {
+	left: 100%;
+}
+
+.login-btn {
+	background: #007bff;
+	color: black;
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+}
+
+.register-btn {
+	background: #28a745;
+	color: black;
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.login-btn:hover {
+	background: transparent;
+	border: 1px solid black;
+}
+
+.register-btn:hover {
+	background: transparent;
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+@keyframes slideIn {from { opacity:0;
+	transform: translateY(20px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+}
+
+.error-message {
+	margin-top: 10px;
+	color: red;
+	font-weight: 600;
+}
+</style>
+</head>
+<body>
+	<div class="login-container">
+		<div class="login-box">
+			<h1>Login</h1>
+			<form id="loginForm" action="/login" method="post">
+				<div class="input-group">
+					<input type="text" id="username" name="username" required>
+					<label for="username">Username</label>
+				</div>
+				<div class="input-group">
+					<input type="password" id="password" name="password" required>
+					<label for="password">Password</label>
+				</div>
+				<div class="button-group">
+					<button type="submit" class="btn login-btn">Login</button>
+					<a href="/signup" class="btn register-btn">Register</a>
+				</div>
+				<div class="error-message">
+					<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
