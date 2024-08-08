@@ -30,6 +30,7 @@ public class UserRepository {
     private static final String GET_USERNAME_BY_ID_SQL = "SELECT username FROM users WHERE id = ?";
     private static final String GET_DATES_BY_USERNAME_SQL = "SELECT Date FROM attendance WHERE username = ?";
     private static final String GET_ATTENDANCE_BY_USERNAME_SQL = "SELECT date, sign_in_time, sign_out_time FROM attendance WHERE username = ?";
+    private static final String SELECT_QUERY = "SELECT username FROM users";
     
     public boolean saveNewUser(User user) {
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -65,8 +66,7 @@ public class UserRepository {
         	preparedStatement.setString(1, username);
             preparedStatement.setTime(2, Time.valueOf(signInTime));
             preparedStatement.setDate(3, Date.valueOf(signInDate));
-            int rowsAffected = preparedStatement.executeUpdate();
-            
+            int rowsAffected = preparedStatement.executeUpdate(); 
             if (rowsAffected > 0) {
                 System.out.println("Sign-in time updated successfully.");
                 return true;
@@ -158,7 +158,7 @@ public class UserRepository {
         List<String> users = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT username FROM users")) {
+             ResultSet resultSet = statement.executeQuery(SELECT_QUERY)) {
             while (resultSet.next()) {
                 users.add(resultSet.getString("username"));
             }
