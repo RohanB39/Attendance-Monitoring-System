@@ -131,9 +131,15 @@ public class UserRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AttendanceRecord record = new AttendanceRecord();
-                record.setDate(resultSet.getDate("date").toLocalDate()); // Ensure correct conversion
-                record.setSignInTime(resultSet.getTime("sign_in_time").toLocalTime()); // Ensure correct conversion
-                record.setSignOutTime(resultSet.getTime("sign_out_time").toLocalTime()); // Ensure correct conversion
+                record.setDate(resultSet.getDate("date").toLocalDate());
+                record.setSignInTime(resultSet.getTime("sign_in_time").toLocalTime());
+                Time signOutTime = resultSet.getTime("sign_out_time");
+                if (signOutTime != null) {
+                    record.setSignOutTime(signOutTime.toLocalTime());
+                } else {
+                	record.setSignOutTime(LocalTime.MIDNIGHT);
+                }
+
                 records.add(record);
             }
         } catch (SQLException e) {
@@ -141,6 +147,7 @@ public class UserRepository {
         }
         return records;
     }
+
     
     public static String formatTo12Hour(LocalTime localTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");

@@ -13,15 +13,5 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public String register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("phoneNumber") Long phoneNumber, RedirectAttributes redirectAttributes) {
-        User newUser = new User(username, password, email, phoneNumber);
-        boolean Saving = userService.saveUser(newUser);
-        if (Saving == true) {
-            return "redirect:/";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Registration failed. Please try again.");
-            return "redirect:/register";
-        }
-    }
+   
 }

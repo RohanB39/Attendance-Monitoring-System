@@ -7,6 +7,7 @@
 @import
 	url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
 	;
+
 .dd-box {
 	max-width: 1300px;
 	margin: 0 auto;
@@ -69,12 +70,12 @@
 </style>
 </head>
 <body>
-		<h1>
-			Attendance Report of <span class="usernamee" th:text="${username}"></span>
-		</h1>
+	<h1>
+		Attendance Report of <span class="usernamee" th:text="${username}"></span>
+	</h1>
 	<div class="dd-box theme-pink">
 		<div th:each="date : ${dates}" class="dd-box-item">
-			
+
 			<div class="dd-box-header">
 				<button class="dd-box-button">
 					<span class="icon">+</span>
@@ -85,8 +86,17 @@
 				<p>
 					<span th:if="${records[date.toString()] != null}"> Sign in -
 						<span th:text="${records[date.toString()].signInTime}"></span><br>
-						Sign out - <span th:text="${records[date.toString()].signOutTime}"></span><br>
-					</span> <span th:if="${records[date.toString()] == null}"> Sign in
+						<span
+						th:if="${records[date.toString()].signOutTime == T(java.time.LocalTime).MIDNIGHT}">
+							Sign out - <span th:text="'N/A'"></span>
+					    </span>
+					     <span
+						th:unless="${records[date.toString()].signOutTime == T(java.time.LocalTime).MIDNIGHT}">
+							Sign out - <span
+							th:text="${records[date.toString()].signOutTime}"></span>
+					    </span><br>
+					</span> 
+					<span th:if="${records[date.toString()] == null}"> Sign in
 						- Absent<br> Sign out - Absent<br>
 					</span>
 				</p>
