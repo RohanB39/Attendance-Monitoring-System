@@ -31,8 +31,8 @@ public class MainController {
     @PostMapping("/register")
     public String register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("phoneNumber") Long phoneNumber, RedirectAttributes redirectAttributes) {
         User newUser = new User(username, password, email, phoneNumber);
-        boolean Saving = userService.saveUser(newUser);
-        if (Saving == true) {
+        boolean saving = userService.saveUser(newUser);
+        if (saving) {
             return "redirect:/";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Registration failed. Please try again.");
@@ -43,11 +43,11 @@ public class MainController {
     @PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         if ("admin".equals(username) && "123".equals(password)) {
-            model.addAttribute("username", username); //Asch add kely
-            return "adminPage";
+            model.addAttribute("username", username);
+            return "redirect:/adminPage";
         }
-        boolean Valid = userService.validateUser(username, password);
-        if (Valid == true) {
+        boolean valid = userService.validateUser(username, password);
+        if (valid) {
             model.addAttribute("username", username);
             return "home";
         } else {
@@ -61,7 +61,7 @@ public class MainController {
         LocalTime now = LocalTime.now();
         LocalDate today = LocalDate.now();
         boolean signIn = userService.updateSignInTime(username, now, today);
-        if (signIn == true) {
+        if (signIn) {
             model.addAttribute("username", username);
             return "SignOut";
         } else {
@@ -75,7 +75,7 @@ public class MainController {
         LocalTime now = LocalTime.now();
         LocalDate today = LocalDate.now();
         boolean signOut = userService.updateSignOutTime(now, today);
-        if (signOut == true) {
+        if (signOut) {
             model.addAttribute("username", username);
             return "login";
         } else {
@@ -99,8 +99,8 @@ public class MainController {
 
         for (AttendanceRecord record : attendanceRecords) {
             Map<String, String> timeData = new HashMap<>();
-            timeData.put("signInTime",UserRepository.formatTo12Hour(record.getSignInTime()));
-            timeData.put("signOutTime",UserRepository.formatTo12Hour(record.getSignOutTime()));
+            timeData.put("signInTime", UserRepository.formatTo12Hour(record.getSignInTime()));
+            timeData.put("signOutTime", UserRepository.formatTo12Hour(record.getSignOutTime()));
             recordsMap.put(record.getDate().toString(), timeData);
         }
 
@@ -115,8 +115,7 @@ public class MainController {
     public String showAdminPage(Model model) {
         List<String> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "adminPage"; 
+        return "adminPage";
     }
-
 
 }
