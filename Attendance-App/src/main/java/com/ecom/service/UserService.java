@@ -2,6 +2,7 @@ package com.ecom.service;
 
 import com.ecom.model.AttendanceRecord;
 import com.ecom.model.User;
+import com.ecom.repository.UserRepo;
 import com.ecom.repository.UserRepository;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -16,6 +17,8 @@ public class UserService {
    
 	@Autowired
     private UserRepository userRepository;
+	@Autowired
+	private UserRepo userrepo;
 
     public boolean saveUser(User user) {
         return userRepository.saveNewUser(user);

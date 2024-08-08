@@ -18,7 +18,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository {
+public class UserRepository{
     private final String jdbcURL = "jdbc:mysql://localhost:3306/attendance";
     private final String jdbcUsername = "root";
     private final String jdbcPassword = "25082018@Rt";
